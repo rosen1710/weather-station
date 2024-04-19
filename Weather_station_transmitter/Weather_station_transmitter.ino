@@ -3,6 +3,8 @@
 #include "RF24.h"
 #include "SFE_BMP180.h"
 
+#define CONNECTION_TIMEOUT_SECONDS 600
+
 #define CE_RADIO_PIN 9
 #define CSN_RADIO_PIN 10
 
@@ -46,5 +48,5 @@ void loop() {
   Serial.print(data.pressure);
   Serial.println(" hPa (mb)");
 
-  delay(5000);
+  delay(CONNECTION_TIMEOUT_SECONDS * 1000);
 }

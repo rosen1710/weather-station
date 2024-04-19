@@ -4,7 +4,7 @@
 #include "dht.h"
 #include "LiquidCrystal.h"
 
-#define CONNECTION_TIMEOUT_SECONDS 10
+#define CONNECTION_TIMEOUT_SECONDS 1200
 
 #define DHT_SENSOR_DATA_PIN 8
 
@@ -35,7 +35,7 @@ const byte readingAddress[6] = "00001";
 
 struct Data data;
 
-int timeout = 0;
+long timeout = 0;
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
@@ -87,7 +87,16 @@ void loop() {
   Serial.print("°C");
   Serial.print("\n\tInside humidity: ");
   Serial.print((int) dht_sensor.humidity);
-  Serial.println("%");
+  Serial.print("%");
+  Serial.print("\n\tRemaining timeout: ");
+  Serial.print(timeout / 3600);
+  Serial.print(":");
+  Serial.print((timeout % 3600) / 60);
+  Serial.print(":");
+  Serial.print(timeout % 60);
+  Serial.print(" (");
+  Serial.print(timeout);
+  Serial.println(" seconds)");
 
   lcd.setCursor(0, 0);
   lcd.print("In:  ");
@@ -104,6 +113,6 @@ void loop() {
     lcd.print("Connection lost!");
     timeout = 0;
   }
-  
+
   delay(1000);
 }
